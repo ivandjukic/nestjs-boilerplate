@@ -1,0 +1,16 @@
+FROM localstack/localstack
+
+# Set the environment variable to start only the S3 service
+ENV SERVICES=s3
+
+# Optional: Enable debugging output
+ENV DEBUG=1
+
+# Copy the initialization script to the container (adjust path if needed)
+COPY ./integration-tests/localstack/s3_bootstrap.sh /etc/localstack/init/ready.d/
+
+# set permissions for the initialization script
+RUN chmod +x /etc/localstack/init/ready.d/s3_bootstrap.sh
+
+# Set the `CMD` to start LocalStack
+CMD ["localstack"]

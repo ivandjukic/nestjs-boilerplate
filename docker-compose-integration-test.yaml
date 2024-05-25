@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  integration-tests-db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db
+    container_name: integration-tests-db
+    ports:
+      - '54338:5432'
+    networks:
+      - integration-tests
+
+  integration-tests-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: integration-tests-app
+    env_file:
+      - .env.integrationtest-local
+    ports:
+      - '3004:3004'
+    depends_on:
+      - integration-tests-db
+    volumes:
+      - ./src:/app/src
+      - ./integration-tests:/app/integration-tests
+    networks:
+      - integration-tests
+
+  localstack:
+    build:
+      context: .
+      dockerfile: Dockerfile-localstack
+    container_name: localstack
+    ports:
+      - "4566:4566"
+      - "4571:4571"
+    environment:
+      - SERVICES=s3,sqs
+      - DEFAULT_REGION=eu-central-1
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - integration-tests
+
+networks:
+  integration-tests:
+    external: false
