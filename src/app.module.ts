@@ -80,11 +80,11 @@ import { AuditLogEntity } from './modules/audit-logs/entities/audit-log.entity'
         }),
         MailerModule.forRoot({
             transport: {
-                host: 'email-smtp.eu-central-1.amazonaws.com', // Replace [region] with your AWS SES region.
+                host: '', // Replace [region] with your AWS SES region.
                 secure: false, // True if you're using port 465, false for port 587 or 25.
                 auth: {
-                    user: 'AKIA5FTZFUYY5OQLUN55', // Your SMTP username from AWS SES.
-                    pass: 'BIUVcC0Ib8xFiXyIQl1j56zCGO6bk5ufNh2Q2ejs/S3u', // Your SMTP password from AWS SES.
+                    user: '', // Your SMTP username from AWS SES.
+                    pass: '', // Your SMTP password from AWS SES.
                 },
             },
             defaults: {
